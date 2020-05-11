@@ -14,7 +14,10 @@ function normalizeHeaderName(headers: any, normalizedName: string): void {
 }
 
 export function handleHeaders(headers: any, data: any): any {
+    // 格式化 headers 字段
     normalizeHeaderName(headers, 'Content-Type');
+    
+    // 没有指定 headers
     if (isPlainObject(data)) {
         if (headers && !headers['Content-Type']) {
             headers['Content-Type'] = 'application/json;charset=utf-8';
