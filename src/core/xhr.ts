@@ -64,7 +64,7 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
         request.send(data);
 
         function handleResponse(res: AxiosResponse): void {
-            if (res.status > 200 && res.status < 300) {
+            if (res.status >= 200 && res.status < 300) {
                 resolve(res);
             } else {
                 reject(

@@ -39,6 +39,7 @@ function transformHeaders(config: AxiosRequestConfig): any {
 
 // 格式化response data
 function transformResponseData(res: AxiosResponse) {
+    console.log(res);
     res.data = transformResponseData(res.data);
     return res;
 }

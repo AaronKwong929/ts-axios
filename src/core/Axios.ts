@@ -1,7 +1,16 @@
 import { AxiosRequestConfig, AxiosPromise, Method } from './../types/index';
 import dispatchRequest from './dispatchRequest';
 export default class Axios {
-    request(config: AxiosRequestConfig): AxiosPromise {
+    request(url: any, config?: any): AxiosPromise {
+        if (typeof url === 'string') {
+            if (!config) {
+                config = {};
+            }
+            config.url = url;
+        } else {
+            // 如果只传了config，config是在url位置上的，原config位置为undefined，
+            config = url;
+        }
         return dispatchRequest(config);
     }
 

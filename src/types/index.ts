@@ -51,11 +51,14 @@ export interface axios {
     head(url: string, config?: AxiosRequestConfig): AxiosPromise;
     options(url: string, config?: AxiosRequestConfig): AxiosPromise;
 
-    post(url: string, data: any, config: AxiosRequestConfig): AxiosPromise;
-    put(url: string, data: any, config: AxiosRequestConfig): AxiosPromise;
-    patch(url: string, data: any, config: AxiosRequestConfig): AxiosPromise;
+    post(url: string, data: any, config?: AxiosRequestConfig): AxiosPromise;
+    put(url: string, data: any, config?: AxiosRequestConfig): AxiosPromise;
+    patch(url: string, data: any, config?: AxiosRequestConfig): AxiosPromise;
 }
 
 export interface AxiosInstance extends axios {
     (config: AxiosRequestConfig): AxiosPromise;
+
+    (url:string, config?: AxiosRequestConfig): AxiosPromise;
+
 }

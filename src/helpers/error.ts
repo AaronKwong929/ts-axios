@@ -1,5 +1,5 @@
 import { AxiosRequestConfig, AxiosResponse } from './../types/index';
-import { stringify } from 'querystring';
+
 export class AxiosError extends Error {
     isAxiosError: boolean;
     config: AxiosRequestConfig;
