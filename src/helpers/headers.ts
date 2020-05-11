@@ -16,7 +16,7 @@ function normalizeHeaderName(headers: any, normalizedName: string): void {
 export function handleHeaders(headers: any, data: any): any {
     // 格式化 headers 字段
     normalizeHeaderName(headers, 'Content-Type');
-    
+
     // 没有指定 headers
     if (isPlainObject(data)) {
         if (headers && !headers['Content-Type']) {
@@ -24,4 +24,24 @@ export function handleHeaders(headers: any, data: any): any {
         }
     }
     return headers;
+}
+
+export function parseHeaders(headers: string): any {
+    let parsed = Object.create(null);
+    if (!headers) {
+        return parsed;
+    }
+
+    headers.split('\r\n').forEach(item => {
+        let [key, val] = item.split(':');
+        key = key.trim().toLowerCase();
+        if (!key) {
+            return;
+        }
+        if (val) {
+            val = val.trim();
+        }
+        parsed[key] = val;
+    });
+    return parsed;
 }

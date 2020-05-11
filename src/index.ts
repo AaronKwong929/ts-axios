@@ -1,4 +1,4 @@
-import { AxiosRequestConfig, AxiosPromise } from './types/index';
+import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index';
 import xhr from './xhr';
 import { buildURL } from './helpers/url';
 import { transformRequest } from './helpers/data';
@@ -6,14 +6,17 @@ import { handleHeaders } from './helpers/headers';
 
 function axios(config: AxiosRequestConfig): AxiosPromise {
     handleConfig(config);
-    return xhr(config);
+    return xhr(config).then(res => {
+        // 对 data 做响应处理后再返回 res 可以继续链式调用 then
+        return transformResponseData(res);
+    });
 }
 
 function handleConfig(config: AxiosRequestConfig): void {
     config.url = transformUrl(config);
-    
+
     config.headers = transformHeaders(config); // 注意顺序，要在data之前，不然传值会变成 JSON.stringify
-    
+
     config.data = transformRequestData(config);
 }
 
@@ -32,6 +35,12 @@ function transformRequestData(config: AxiosRequestConfig): any {
 function transformHeaders(config: AxiosRequestConfig): any {
     const { headers = {}, data } = config;
     return handleHeaders(headers, data);
+}
+
+// 格式化response data
+function transformResponseData(res: AxiosResponse) {
+    res.data = transformResponseData(res.data);
+    return res;
 }
 
 export default axios;
