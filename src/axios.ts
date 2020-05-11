@@ -1,46 +1,14 @@
-import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from './types/index';
-import xhr from './xhr';
-import { buildURL } from './helpers/url';
-import { transformRequest } from './helpers/data';
-import { handleHeaders } from './helpers/headers';
+import { AxiosInstance } from './types/index';
+import Axios from './core/Axios';
+import { extend } from './helpers/util';
+function createInstance(): AxiosInstance {
+    const context = new Axios();
+    const instance = Axios.prototype.request.bind(context);
+    extend(instance, context);
 
-function axios(config: AxiosRequestConfig): AxiosPromise {
-    handleConfig(config);
-    return xhr(config).then(res => {
-        // 对 data 做响应处理后再返回 res 可以继续链式调用
-        return transformResponseData(res);
-    });
+    return instance as AxiosInstance;
 }
 
-function handleConfig(config: AxiosRequestConfig): void {
-    config.url = transformUrl(config);
-
-    config.headers = transformHeaders(config); // 注意顺序，要在data之前，不然传值会变成 JSON.stringify
-
-    config.data = transformRequestData(config);
-}
-
-// 格式化 url
-function transformUrl(config: AxiosRequestConfig): string {
-    const { url, params } = config;
-    return buildURL(url, params);
-}
-
-// 格式化 data
-function transformRequestData(config: AxiosRequestConfig): any {
-    return transformRequest(config.data);
-}
-
-// 格式化 headers
-function transformHeaders(config: AxiosRequestConfig): any {
-    const { headers = {}, data } = config;
-    return handleHeaders(headers, data);
-}
-
-// 格式化response data
-function transformResponseData(res: AxiosResponse) {
-    res.data = transformResponseData(res.data);
-    return res;
-}
+const axios = createInstance();
 
 export default axios;
