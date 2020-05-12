@@ -56,9 +56,9 @@ export interface axios {
     patch(url: string, data: any, config?: AxiosRequestConfig): AxiosPromise;
 }
 
+// 混合类型接口
 export interface AxiosInstance extends axios {
     (config: AxiosRequestConfig): AxiosPromise;
 
-    (url:string, config?: AxiosRequestConfig): AxiosPromise;
-
+    (url: string, config?: AxiosRequestConfig): AxiosPromise;
 }

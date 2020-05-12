@@ -8,12 +8,12 @@ axios({
     },
 });
 
-// axios('/extend/post', {
-//     method: 'post',
-//     data: {
-//         msg: 'hello',
-//     },
-// });
+axios('/extend/post', {
+    method: 'post',
+    data: {
+        msg: 'hello',
+    },
+});
 
 // axios.request({
 //     url: '/extend/post',

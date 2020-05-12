@@ -1,7 +1,7 @@
 import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index';
 import xhr from './xhr';
 import { buildURL } from '../helpers/url';
-import { transformRequest } from '../helpers/data';
+import { transformRequest, transformResponse } from '../helpers/data';
 import { handleHeaders } from '../helpers/headers';
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
@@ -39,8 +39,7 @@ function transformHeaders(config: AxiosRequestConfig): any {
 
 // 格式化response data
 function transformResponseData(res: AxiosResponse) {
-    // console.log(res);
-    res.data = transformResponseData(res.data);
+    res.data = transformResponse(res.data);
     return res;
 }
 
