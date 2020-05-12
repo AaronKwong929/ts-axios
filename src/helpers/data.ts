@@ -8,6 +8,7 @@ export function transformRequest(data: any): any {
     return data;
 }
 
+// 将 res.data 从 JSON 字符串转换成对象
 export function transformResponse(data: any): any {
     if (typeof data === 'string') {
         try {

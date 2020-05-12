@@ -2,6 +2,7 @@ import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 import { parseHeaders } from '../helpers/headers';
 import { createError } from '../helpers/error';
 
+// 将 xhr 函数 Promise 化
 export default function xhr(config: AxiosRequestConfig): AxiosPromise {
     return new Promise((resolve, reject) => {
         const { data = null, url, method = 'get', headers, responseType, timeout } = config;
@@ -16,7 +17,9 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
             request.timeout = timeout;
         }
 
+        // url! 表明 url 是必传的参数，因为 AxiosRequestConfig 里它是可选的
         request.open(method.toUpperCase(), url!, true);
+
 
         request.onreadystatechange = function handleLoad() {
             if (request.readyState !== 4) {
@@ -26,7 +29,8 @@ export default function xhr(config: AxiosRequestConfig): AxiosPromise {
             if (request.status === 0) {
                 return;
             }
-
+            
+            // 将 res 的 headers 格式化
             const responseHeaders = parseHeaders(request.getAllResponseHeaders());
 
             const responseData = responseType !== 'text' ? request.response : request.responseText;

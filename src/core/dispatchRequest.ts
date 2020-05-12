@@ -15,7 +15,7 @@ export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromis
 function handleConfig(config: AxiosRequestConfig): void {
     config.url = transformUrl(config);
 
-    config.headers = transformHeaders(config); // 注意顺序，要在data之前，不然传值会变成 JSON.stringify
+    config.headers = transformHeaders(config); // 注意顺序，要在data之前，不然传值会变成 JSON.stringify 后的值
 
     config.data = transformRequestData(config);
 }
@@ -39,7 +39,7 @@ function transformHeaders(config: AxiosRequestConfig): any {
 
 // 格式化response data
 function transformResponseData(res: AxiosResponse) {
-    console.log(res);
+    // console.log(res);
     res.data = transformResponseData(res.data);
     return res;
 }

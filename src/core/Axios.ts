@@ -1,5 +1,6 @@
 import { AxiosRequestConfig, AxiosPromise, Method } from './../types/index';
 import dispatchRequest from './dispatchRequest';
+
 export default class Axios {
     request(url: any, config?: any): AxiosPromise {
         if (typeof url === 'string') {
@@ -15,7 +16,7 @@ export default class Axios {
     }
 
     get(url: string, config?: AxiosRequestConfig): AxiosPromise {
-        return this._requestMethodWithoutData('GET', url, config!);
+        return this._requestMethodWithoutData('GET', url, config);
     }
 
     delete(url: string, config?: AxiosRequestConfig): AxiosPromise {

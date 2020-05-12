@@ -20,7 +20,8 @@ export class AxiosError extends Error {
         this.request = request;
         this.response = response;
         this.isAxiosError = true;
-
+        
+        // ts 的坑
         Object.setPrototypeOf(this, AxiosError.prototype);
     }
 }

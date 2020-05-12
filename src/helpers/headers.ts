@@ -14,11 +14,11 @@ function normalizeHeaderName(headers: any, normalizedName: string): void {
 }
 
 export function handleHeaders(headers: any, data: any): any {
-    // 格式化 headers 字段
+    // 有指定 headers的 content-type
     normalizeHeaderName(headers, 'Content-Type');
 
-    // 没有指定 headers
     if (isPlainObject(data)) {
+        // 没有指定 content-type
         if (headers && !headers['Content-Type']) {
             headers['Content-Type'] = 'application/json;charset=utf-8';
         }
@@ -26,6 +26,7 @@ export function handleHeaders(headers: any, data: any): any {
     return headers;
 }
 
+// 格式化返回结果的 headers，一个json字符串，每一行由 \r\n 分隔
 export function parseHeaders(headers: string): any {
     let parsed = Object.create(null);
     if (!headers) {
