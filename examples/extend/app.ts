@@ -1,22 +1,14 @@
 import axios from '../../src/index';
 
-axios({
-    url: '/extend/post',
-    method: 'post',
-    data: {
-        msg: 'hi',
-    },
-});
-
-axios('/extend/post', {
-    method: 'post',
-    data: {
-        msg: 'hello',
-    },
-});
-
-// axios.request({
+// axios({
 //     url: '/extend/post',
+//     method: 'post',
+//     data: {
+//         msg: 'hi',
+//     },
+// });
+
+// axios('/extend/post', {
 //     method: 'post',
 //     data: {
 //         msg: 'hello',
@@ -37,43 +29,28 @@ axios('/extend/post', {
 
 // axios.patch('/extend/patch', { msg: 'patch' });
 
-// axios({
-//     url: '/extend/post',
-//     method: 'post',
-//     data: {
-//         msg: 'hi',
-//     },
-// });
+interface ResponseData<T = any> {
+    code: number;
+    result: T;
+    message: string;
+}
 
-// axios('/extend/post', {
-//     method: 'post',
-//     data: {
-//         msg: 'hello',
-//     },
-// });
+interface User {
+    name: string;
+    age: number;
+}
 
-// // interface ResponseData<T = any> {
-// //   code: number
-// //   result: T
-// //   message: string
-// // }
+function getUser<T>() {
+    return axios<ResponseData<T>>('/extend/user')
+        .then(res => res.data)
+        .catch(err => console.error(err));
+}
 
-// // interface User {
-// //   name: string
-// //   age: number
-// // }
+async function test() {
+    const user = await getUser<User>();
+    if (user) {
+        console.log(user.result.name);
+    }
+}
 
-// // function getUser<T>() {
-// //   return axios<ResponseData<T>>('/extend/user')
-// //     .then(res => res.data)
-// //     .catch(err => console.error(err))
-// // }
-
-// // async function test() {
-// //   const user = await getUser<User>()
-// //   if (user) {
-// //     console.log(user.result.name)
-// //   }
-// // }
-
-// // test()
+test();
