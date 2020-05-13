@@ -21,15 +21,19 @@ interface PromiseChain<T> {
 
 export default class Axios {
     interceptors: Interceptors;
+    // 初始化的配置
+    defaults: AxiosRequestConfig;
 
-    constructor() {
+    constructor(initConfig: AxiosRequestConfig) {
         // axios.interceptors.request.use // axios.interceptors.response.use
-
         // 实例化
         this.interceptors = {
             request: new InterceptorManager<AxiosRequestConfig>(),
             response: new InterceptorManager<AxiosResponse>(),
         };
+
+        // 导入配置
+        this.defaults = initConfig;
     }
 
     request(url: any, config?: any): AxiosPromise {

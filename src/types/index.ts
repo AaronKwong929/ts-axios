@@ -45,10 +45,12 @@ export interface AxiosError extends Error {
 }
 
 export interface axios {
+    defaults: AxiosRequestConfig;
+
     interceptors: {
-        request: AxiosInterceptorManager<AxiosRequestConfig>
-        response: AxiosInterceptorManager<AxiosResponse>
-    }
+        request: AxiosInterceptorManager<AxiosRequestConfig>;
+        response: AxiosInterceptorManager<AxiosResponse>;
+    };
 
     request<T = any>(config: AxiosRequestConfig): AxiosPromise<T>;
 
