@@ -22,6 +22,8 @@ export interface AxiosRequestConfig {
     headers?: any;
     responseType?: XMLHttpRequestResponseType;
     timeout?: number;
+
+    [propName: string]: any
 }
 
 // 修改加入泛型参数 T

@@ -1,4 +1,5 @@
-import { isPlainObject } from './util';
+import { AxiosRequestConfig, Method } from './../types/index';
+import { isPlainObject, deepMerge } from './util';
 
 // 将 headers 的 key 格式化
 function normalizeHeaderName(headers: any, normalizedName: string): void {
@@ -45,4 +46,21 @@ export function parseHeaders(headers: string): any {
         parsed[key] = val;
     });
     return parsed;
+}
+
+// 扁平化 headers
+export function flattenHeaders(headers: any, method: Method): any {
+    if (!headers) {
+        return headers;
+    }
+
+    headers = deepMerge(headers.common, headers[method], headers);
+
+    const methodsToDelete = ['delete', 'get', 'head', 'options', 'post', 'put', 'patch', 'common'];
+
+    methodsToDelete.forEach(method => {
+        delete headers[method];
+    })
+
+    return headers;
 }

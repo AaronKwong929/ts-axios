@@ -8,6 +8,7 @@ import {
 } from './../types/index';
 import dispatchRequest from './dispatchRequest';
 import InterceptorManager from './interceptorManager';
+import mergeConfig from './mergeConfig';
 
 interface Interceptors {
     request: InterceptorManager<AxiosRequestConfig>;
@@ -47,8 +48,12 @@ export default class Axios {
             config = url;
         }
 
+        // 发送请求前要合并config
+        config = mergeConfig(this.defaults, config);
+
         // 链中是一堆拦截器
         const chain: PromiseChain<any>[] = [
+            // promise链初始化的时候第一个是 dispatchRequest ，然后是跟着的一堆拦截器
             {
                 resolved: dispatchRequest,
                 rejected: undefined,
@@ -65,15 +70,15 @@ export default class Axios {
             chain.push(interceptor);
         });
 
+        // Promise.resolve(config) 相当于将 config 传入 then 
         let promise = Promise.resolve(config);
 
         // 链式调用
         while (chain.length) {
-            const { resolved, rejected } = chain.shift()!;
+            const { resolved, rejected } = chain.shift()!; // 取出第一个并返回它的值，解构
             promise = promise.then(resolved, rejected);
         }
 
-        // return dispatchRequest(config);
         return promise;
     }
 

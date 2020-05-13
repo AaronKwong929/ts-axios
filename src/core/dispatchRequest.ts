@@ -2,7 +2,7 @@ import { AxiosRequestConfig, AxiosPromise, AxiosResponse } from '../types/index'
 import xhr from './xhr';
 import { buildURL } from '../helpers/url';
 import { transformRequest, transformResponse } from '../helpers/data';
-import { handleHeaders } from '../helpers/headers';
+import { handleHeaders, flattenHeaders } from '../helpers/headers';
 
 export default function dispatchRequest(config: AxiosRequestConfig): AxiosPromise {
     handleConfig(config);
@@ -18,6 +18,8 @@ function handleConfig(config: AxiosRequestConfig): void {
     config.headers = transformHeaders(config); // 注意顺序，要在data之前，不然传值会变成 JSON.stringify 后的值
 
     config.data = transformRequestData(config);
+
+    config.headers = flattenHeaders(config.headers, config.method!);
 }
 
 // 格式化 url
@@ -42,4 +44,3 @@ function transformResponseData(res: AxiosResponse) {
     res.data = transformResponse(res.data);
     return res;
 }
-
